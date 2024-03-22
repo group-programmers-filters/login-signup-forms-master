@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "14111855123",
+    "project_id": "xfc-jgftf",
+    "storage_bucket": "xfc-jgftf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14111855123:android:79114515645bdc3c12e5e6",
+        "android_client_info": {
+          "package_name": "com.example.login_signup"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3pkAC1M3TQqtqFsNtFV16bm4pWh7jgck"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
