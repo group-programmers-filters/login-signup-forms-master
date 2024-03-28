@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:login_signup/firebase_options.dart';
 import 'package:login_signup/screens/welcome_screen.dart';
+
 import 'package:login_signup/theme/theme.dart';
+
+
+import 'package:login_signup/view_modell/home_model_nactvar.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -19,10 +23,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+
       debugShowCheckedModeBanner: false,
+     
       title: 'Flutter Demo',
       theme: lightMode,
-      home: const WelcomeScreen(),
+      initialRoute: WelcomeScreen.id,
+      getPages: [
+        GetPage(
+          name: WelcomeScreen.id,
+          page: () => WelcomeScreen(),
+        ),
+        GetPage(
+          name: home_model_nactva.id,
+          page: () => home_model_nactva(),
+        ),
+      ],
+         
+      
+    
     );
   }
 }
