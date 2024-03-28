@@ -7,6 +7,7 @@ import 'package:login_signup/widgets/welcome_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
+    static String id = '/WelcomeScreen';
 
   @override
   Widget build(BuildContext context) {

@@ -1,11 +1,11 @@
-// ignore_for_file: use_build_context_synchronously, prefer_const_constructors
+// ignore_for_file: use_build_context_synchronously, prefer_const_constructors, unused_local_variable
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:login_signup/screens/home.dart';
 import 'package:login_signup/screens/signup_screen.dart';
+import 'package:login_signup/view_modell/home_model_nactvar.dart';
 import 'package:login_signup/widgets/custom_scaffold.dart';
 
 import '../theme/theme.dart';
@@ -18,28 +18,36 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  String email="", password ="" , name = "";
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
-  TextEditingController nameController = new TextEditingController();
-  
+  String email = "", password = "", name = "";
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
 
   final _formSignInKey = GlobalKey<FormState>();
-  registration()async{
-    if(password != null && nameController.text!=""&& emailController.text!=""){
-      try{
-        UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email:email,password:password);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text("Registered Successfully",style: TextStyle(fontSize: 20.0),)));
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-      }on FirebaseAuthException catch(e){
-        if(e.code=='weak-password'){
+  registration() async {
+    if (password.isNotEmpty && emailController.text.isNotEmpty) {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Registered Successfully",
+              style: TextStyle(fontSize: 20.0),
+            ),
+          ),
+        );
+        
+        Get.toNamed(home_model_nactva.id);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.amber,
+              backgroundColor: Colors.amber,
               content: Text(
-            "password providded is too waek",
-            style: TextStyle(fontSize: 18.0),
-          )));
-        }else if (e.code== "email-already-in-use"){
+                "password providded is too waek",
+                style: TextStyle(fontSize: 18.0),
+              )));
+        } else if (e.code == "email-already-in-use") {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               backgroundColor: Colors.amber,
               content: Text(
@@ -48,9 +56,10 @@ class _SignInScreenState extends State<SignInScreen> {
               )));
         }
       }
+    } else {
+      Get.snackbar("error", "no data fond");
     }
-  } 
-
+  }
 
   bool rememberPassword = true;
   @override
@@ -213,6 +222,14 @@ class _SignInScreenState extends State<SignInScreen> {
                                   content: Text('Processing Data'),
                                 ),
                               );
+                              if (_formSignInKey.currentState!.validate()) {
+                                setState(() {
+                                  password = passwordController.text;
+                                  name = nameController.text;
+                                  email = emailController.text;
+                                });
+                              }
+                              registration();
                             } else if (!rememberPassword) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -220,7 +237,6 @@ class _SignInScreenState extends State<SignInScreen> {
                                         'Please agree to the processing of personal data')),
                               );
                             }
-                            
                           },
                           child: const Text('Sign up'),
                         ),
@@ -284,7 +300,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                           InkWell(
                             onTap: () {
-                                  Get.to(const SignUpScreen() );
+                              Get.to(const SignUpScreen());
                             },
                             child: Text(
                               'Sign up',
@@ -292,13 +308,11 @@ class _SignInScreenState extends State<SignInScreen> {
                                 fontWeight: FontWeight.bold,
                                 color: lightColorScheme.primary,
                               ),
-                              
-                              
                             ),
                           ),
                         ],
                       ),
-                      
+
                       const SizedBox(
                         height: 20.0,
                       ),
